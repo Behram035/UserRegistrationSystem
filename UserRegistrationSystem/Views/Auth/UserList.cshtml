@@ -1,0 +1,47 @@
+﻿@model IEnumerable<UserRegistrationSystem.Models.User>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <div class="pagination">
+
+        @if (ViewData["CurrentPage"] != null && (int)ViewData["CurrentPage"] > 1)
+        {
+            <a href="@Url.Action("UserList", "Auth", new { page = (int)ViewData["CurrentPage"] - 1 })" class="btn btn-secondary">Previous</a>
+        }
+
+
+        @if (ViewData["TotalPages"] != null && (int)ViewData["CurrentPage"] < (int)ViewData["TotalPages"])
+        {
+            <a href="@Url.Action("UserList", "Auth", new { page = (int)ViewData["CurrentPage"] + 1 })" class="btn btn-secondary">Next</a>
+        }
+    </div>
+}
+else
+{
+    <p>You must be logged in to view this page.</p>
+}
